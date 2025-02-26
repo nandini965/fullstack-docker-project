@@ -13,7 +13,7 @@ services:
     container_name: backend
     build: ./backend
     ports:
-      - "8080:8080"
+      - "8080:80"
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_USER: postgres
