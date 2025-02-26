@@ -1,9 +1,7 @@
-version: "3.5"
-
 services:
  frontend:
-    container_name: frontend
     build: ./frontend
+    container_name: frontend
     ports:
       - "5000:80"
     networks:
@@ -41,11 +39,8 @@ services:
 
 networks:
   app-network:
-
+    name: fullstack-docker-project_app-network
 volumes:
   db-data:
-
-
-
-
+    name: fullstack-docker-project_db-data
 
