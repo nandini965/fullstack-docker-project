@@ -1,28 +1,6 @@
-services:
-  frontend:
-    build: ./frontend
-    container_name: frontend
-    ports:
-      - "5000:5000"
-    networks:
-      - app-network
-    depends_on:
-      - backend
+version: '3.8'
 
-  backend:
-    container_name: backend
-    build: ./backend
-    ports:
-      - "8080:80"
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DATABASE: postgres
-    networks:
-      - app-network
-    depends_on:
-      - db
+services:
   db:
     container_name: postgres_sql
     image: "postgres:9.6-alpine"
@@ -31,12 +9,44 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_HOST: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DATABASE: postgres
+      POSTGRES_DB: postgres  # ✅ Corrected
     networks:
       - app-network
+    healthcheck:  # ✅ Added health check
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+    environment:
+      POSTGRES_HOST: db  # ✅ Fixed to match service name
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    networks:
+      - app-network
+    depends_on:
+      db:
+        condition: service_healthy  # ✅ Ensures `db` is actually ready before starting
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    depends_on:
+      backend:
+        condition: service_started  # ✅ Ensures `backend` starts before `frontend`
 
 networks:
   app-network:
@@ -45,5 +55,3 @@ networks:
 volumes:
   db-data:
     name: fullstack-docker-project_db-data
-
-
