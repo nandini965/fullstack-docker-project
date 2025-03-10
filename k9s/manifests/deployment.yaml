@@ -38,12 +38,13 @@ spec:
     spec:
       containers:
         - name: backend
-          image: nandini965/backend:latest
+          image: nandini965/backend:latest-docker-project
+
           ports:
             - containerPort: 8080
           env:
             - name: DB_SERVER
-              value: "postgres_sql"
+              value: "postgres"
             - name: POSTGRES_DB
               value: "postgres"
             - name: POSTGRES_USER
@@ -54,21 +55,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres_sql
+  name: postgres
   labels:
-    app: postgres_sql
+    app: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres_sql
+      app: postgres
   template:
     metadata:
       labels:
-        app: postgres_sql
+        app: postgres
     spec:
       containers:
-        - name: postgres_sql
+        - name: postgres
           image: "postgres:9.6-alpine"
           ports:
             - containerPort: 5432
