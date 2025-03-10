@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: nandini965/frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: nandini965/backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_SERVER
+              value: "postgres_sql"
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres_sql
+  labels:
+    app: postgres_sql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres_sql
+  template:
+    metadata:
+      labels:
+        app: postgres_sql
+    spec:
+      containers:
+        - name: postgres_sql
+          image: "postgres:9.6-alpine"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
