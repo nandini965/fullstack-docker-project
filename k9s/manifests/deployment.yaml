@@ -18,7 +18,7 @@ spec:
         - name: frontend
           image: nandini965/frontend:latest
           ports:
-            - containerPort: 80
+            - containerPort: 5000
 ---
 apiVersion: apps/v1
 kind: Deployment

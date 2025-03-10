@@ -6,7 +6,7 @@ spec:
   type: NodePort
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 5000
       nodePort: 31978  # Optional: Define a fixed NodePort
   selector:
     app: frontend
