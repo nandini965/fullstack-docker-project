@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: nandini965/backend:latest-docker-project
+          image: nandini965/backend:latest
 
           ports:
             - containerPort: 8080
