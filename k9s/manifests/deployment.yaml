@@ -43,7 +43,7 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: DB_HOST
+            - name: POSTGRES_HOST
               value: "postgres"
             - name: POSTGRES_DB
               value: "postgres"
@@ -74,7 +74,7 @@ spec:
           ports:
             - containerPort: 5432
           env:
-            - name: DB_HOST
+            - name: POSTGRES_HOST
               value: "postgres"
             - name: POSTGRES_DB
               value: "postgres"
