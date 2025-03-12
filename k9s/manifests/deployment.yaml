@@ -19,9 +19,9 @@ spec:
           image: nandini965/frontend:latest
           ports:
             - containerPort: 5000
-      env:
-        - name: REACT_APP_BACKEND_URL
-          value: "http://backend/api"
+    env:
+         - name: REACT_APP_BACKEND_URL
+           value: "http://backend/api"
 ---
 apiVersion: apps/v1
 kind: Deployment
